@@ -1,0 +1,27 @@
+name: PHP Syntax Check
+
+on:
+  push:
+    paths:
+      - '**.php' # Trigger only when PHP files are modified
+  pull_request:
+    paths:
+      - '**.php' # Trigger for pull requests that modify PHP files
+
+jobs:
+  syntax-check:
+    name: PHP Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # Specify your desired PHP version
+
+      - name: Run PHP Lint
+        run: |
+          find . -type f -name "*.php" -print0 | xargs -0 -n1 php -l
